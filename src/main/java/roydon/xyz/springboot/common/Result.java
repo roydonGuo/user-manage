@@ -1,65 +1,35 @@
 package roydon.xyz.springboot.common;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
- * Created by Intellij IDEA
- * Author: yi cheng
- * Date: 2022/9/13
- * Time: 19:19
- **/
-public class Result<T> {
+ * 接口统一返回包装类
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Result {
+
     private String code;
     private String msg;
-    private T data;
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public Result() {
-    }
-
-    public Result(T data) {
-        this.data = data;
-    }
+    private Object data;
 
     public static Result success() {
-        Result result = new Result<>();
-        result.setCode("0");
-        result.setMsg("成功");
-        return result;
+        return new Result(Constants.CODE_200, "", null);
     }
 
-    public static <T> Result<T> success(T data) {
-        Result<T> result = new Result<>(data);
-        result.setCode("0");
-        result.setMsg("成功");
-        return result;
+    public static Result success(Object data) {
+        return new Result(Constants.CODE_200, "", data);
     }
 
     public static Result error(String code, String msg) {
-        Result result = new Result();
-        result.setCode(code);
-        result.setMsg(msg);
-        return result;
+        return new Result(code, msg, null);
     }
+
+    public static Result error() {
+        return new Result(Constants.CODE_500, "系统错误", null);
+    }
+
 }
