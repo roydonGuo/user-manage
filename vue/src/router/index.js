@@ -10,7 +10,7 @@ const routes = [
         component: () => import('../views/Manage.vue'),
         redirect: '/home',
         children: [
-            {path: 'home', name: '主页', component: () => import('../views/Home.vue')},
+            {path: 'home', name: '', component: () => import('../views/Home.vue')},
             {path: 'user', name: '用户管理', component: () => import('../views/User.vue')},
         ]
     },
