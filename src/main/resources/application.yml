@@ -7,6 +7,12 @@ spring:
     url: jdbc:mysql://localhost:3306/spring-vue-first?serverTimezone=GMT%2b8
     username: root
     password: qwer1234
+  servlet:
+    multipart:
+      max-file-size: 20MB # 默认1MB
+      enabled: true
+      max-request-size: 200MB
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml  #????mybatis?xml??
 #  configuration:
@@ -14,3 +20,6 @@ mybatis:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+files:
+  upload:
+    path: D:/JAVA/IDEA/IDEAProjects/spring-vue-first/files/
