@@ -57,7 +57,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <div style="padding: 10px 0">
       <el-pagination
           @size-change="handleSizeChange"
