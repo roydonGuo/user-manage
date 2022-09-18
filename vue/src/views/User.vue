@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div name="el-zoom-in-center">
 
     <div style="margin: 0 0 10px;display: inline-block">
       <el-input style="width: 200px" placeholder="请输入用户名" suffix-icon="el-icon-search" class="mr-5"
@@ -42,7 +42,9 @@
       <el-table-column prop="email" label="邮箱"></el-table-column>
       <el-table-column prop="phone" label="电话"></el-table-column>
       <el-table-column prop="address" label="地址"></el-table-column>
+
       <el-table-column label="操作" width="200" align="center">
+
         <template slot-scope="scope">
           <el-button type="success" @click="handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
           <el-popconfirm
@@ -103,10 +105,11 @@ export default {
   name: "User",
   data() {
     return {
+      value: true,
       tableData: [],
-      total: 0,
       pageNum: 1,
       pageSize: 10,
+      total: 0,
       username: "",
       email: '',
       address: '',
@@ -134,7 +137,7 @@ export default {
       }).then(res => {
         console.log(res)
         this.tableData = res.data.records
-        this.total = res.total
+        this.total = res.data.total
 
       })
     },
@@ -144,7 +147,6 @@ export default {
       this.address = ''
       this.load()
     },
-
 
     handleSizeChange(pageSize) {
       console.log(pageSize)
