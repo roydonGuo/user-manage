@@ -1,12 +1,18 @@
 <template>
 <div>
-  <h1>主页</h1>
+  <el-calendar v-model="value">
+  </el-calendar>
 </div>
 </template>
 
 <script>
 export default {
-  name: "Home"
+  name: "Home",
+  data() {
+    return {
+      value: new Date()
+    }
+  }
 }
 </script>
 
