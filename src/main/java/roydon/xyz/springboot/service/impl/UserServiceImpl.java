@@ -9,8 +9,14 @@ import roydon.xyz.springboot.common.Constants;
 import roydon.xyz.springboot.controller.dto.UserDTO;
 import roydon.xyz.springboot.entity.User;
 import roydon.xyz.springboot.exception.ServiceException;
+import roydon.xyz.springboot.mapper.RoleMapper;
+import roydon.xyz.springboot.mapper.RoleMenuMapper;
 import roydon.xyz.springboot.mapper.UserMapper;
 import roydon.xyz.springboot.service.IUserService;
+import roydon.xyz.springboot.utils.TokenUtils;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -25,11 +31,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     private static final Log LOG = Log.get();
 
+    @Resource
+    private RoleMapper roleMapper;
+
+    @Resource
+    private RoleMenuMapper roleMenuMapper;
+
     @Override
     public UserDTO login(UserDTO userDTO) {
         User one = getUserInfo(userDTO);
         if (one != null) {
             BeanUtil.copyProperties(one, userDTO, true);
+            String token = TokenUtils.genToken(one.getId().toString(), one.getPassword());
+            userDTO.setToken(token);
+
+            // 查出当前用户的所有菜单权限
+            String role = one.getRole();
+            Integer roleId = roleMapper.selectByFlag(role);
+            List<Integer> integers = roleMenuMapper.selectByRoleId(roleId);
+
             return userDTO;
         } else {
             throw new ServiceException(Constants.CODE_600, "用户名或密码错误");
