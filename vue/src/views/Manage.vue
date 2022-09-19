@@ -7,11 +7,11 @@
 
     <el-container>
       <el-header>
-        <Header :collapseBtnClass="collapseBtnClass" :collapse="collapse"></Header>
+        <Header :collapseBtnClass="collapseBtnClass" :collapse="collapse" :user="user"></Header>
       </el-header>
 
       <el-main>
-        <router-view/>
+        <router-view @refreshUser="getUser"/>
       </el-main>
 
     </el-container>
@@ -29,13 +29,16 @@ export default {
   data() {
     return {
       siteTitle: "后台管理系统",
-
       collapseBtnClass: 'el-icon-s-fold',
       isCollapse: false,
       sideWidth: 200,
       logoTextShow: true,
+      user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
 
     }
+  },
+  created() {
+    this.getUser()
   },
   methods: {
     collapse() {  // 点击收缩按钮触发
@@ -50,6 +53,11 @@ export default {
         this.logoTextShow = true
       }
     },
+    getUser() {
+      this.request.get('/user/username/' + this.user.username).then(res => {
+        this.user = res.data
+      })
+    }
   }
 
 

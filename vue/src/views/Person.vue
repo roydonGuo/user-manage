@@ -8,11 +8,11 @@
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
       >
-        <img v-if="form.avatarUrl" :src="form.avatarUrl" class="avatar" style="width:100px;border-radius: 50px">
+        <img v-if="form.avatarUrl" :src="form.avatarUrl" class="avatar" style="border-radius: 50px">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>
       <el-form-item label="用户名">
-        <el-input v-model="form.username" autocomplete="off"></el-input>
+        <el-input v-model="form.username" disabled autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="昵称">
         <el-input v-model="form.nickname" autocomplete="off"></el-input>
@@ -24,7 +24,7 @@
         <el-input v-model="form.phone" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="地址">
-        <el-input v-model="form.address" autocomplete="off"></el-input>
+        <el-input type="textarea" v-model="form.address" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="save">更 新 信 息</el-button>
@@ -57,8 +57,8 @@ export default {
         if (res.code === '200') {
           this.$message.success("保存成功")
           /* 更新浏览器存储*/
+          this.$emit('refreshUser')
           this.form.token=JSON.parse(localStorage.getItem("user")).token
-
           localStorage.setItem("user",JSON.stringify(this.form))
         } else {
           this.$message.error("保存失败")
@@ -67,7 +67,6 @@ export default {
     },
     handleAvatarSuccess(res) {
       this.form.avatarUrl = res
-
     }
   }
 }
@@ -88,4 +87,30 @@ export default {
 /*  justify-content: center;*/
 /*  align-items: center;*/
 /*}*/
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 </style>
