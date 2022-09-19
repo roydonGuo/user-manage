@@ -1,6 +1,9 @@
 package roydon.xyz.springboot.controller.dto;
 
 import lombok.Data;
+import roydon.xyz.springboot.entity.Menu;
+
+import java.util.List;
 
 /**
  * Created by Intellij IDEA
@@ -15,4 +18,6 @@ public class UserDTO {
     private String nickname;
     private String avatarUrl;
     private String token;
+    private String role;
+    private List<Menu> menus;
 }
