@@ -8,11 +8,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
- *  代码生成器生成实体类
+ * 代码生成器生成实体类
  * </p>
  *
  * @author roydon
@@ -65,13 +65,13 @@ public class User implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 头像
      */
     private String avatarUrl;
 
-
+    private String role;
 
 }
