@@ -23,7 +23,7 @@ import ${superControllerClassPackage};
 
 /**
  * <p>
- * $!{table.comment} 前端控制器
+ * $!{table.comment} 前端控制层
  * </p>
  *
  * @author ${author}
@@ -34,7 +34,7 @@ import ${superControllerClassPackage};
 #else
 @Controller
 #end
-@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end" )
 #if(${kotlin})
 class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
 
@@ -50,38 +50,27 @@ private ${table.serviceName} ${table.entityPath}Service;
 
 // 新增或者更新
 @PostMapping
-public boolean save(@RequestBody ${entity} ${table.entityPath}){
-        return ${table.entityPath}Service.saveOrUpdate(${table.entityPath});
-        }
+public boolean save(@RequestBody ${entity} ${table.entityPath}){return ${table.entityPath}Service.saveOrUpdate(${table.entityPath});}
 
-@DeleteMapping("/{id}")
-public Boolean delete(@PathVariable Integer id){
-        return ${table.entityPath}Service.removeById(id);
-        }
+@DeleteMapping("/{id}" )
+public Boolean delete(@PathVariable Integer id){return ${table.entityPath}Service.removeById(id);}
 
-@PostMapping("/del/batch")
-public boolean deleteBatch(@RequestBody List<Integer> ids){
-        return ${table.entityPath}Service.removeByIds(ids);
-        }
+@DeleteMapping("/del/batch" )
+public boolean deleteBatch(@RequestBody List<Integer> ids){return ${table.entityPath}Service.removeByIds(ids);}
 
 @GetMapping
-public List<${entity}> findAll(){
-        return ${table.entityPath}Service.list();
-        }
+public List<${entity}> findAll(){return ${table.entityPath}Service.list();}
 
-@GetMapping("/{id}")
-public ${entity} findOne(@PathVariable Integer id){
-        return ${table.entityPath}Service.getById(id);
-        }
+@GetMapping("/{id}" )
+public ${entity} findOne(@PathVariable Integer id){return ${table.entityPath}Service.getById(id);}
 
-@GetMapping("/page")
+@GetMapping("/page" )
 public Page<${entity}> findPage(@RequestParam Integer pageNum,
-@RequestParam Integer pageSize){
-        QueryWrapper<User> queryWrapper=new QueryWrapper<>();
-##        queryWrapper.orderByDesc("id");
+                                @RequestParam Integer pageSize){
+        QueryWrapper<${entity}> queryWrapper=new QueryWrapper<>();
+        ## queryWrapper.orderByDesc("id");
         return ${table.entityPath}Service.page(new Page<>(pageNum,pageSize),queryWrapper);
         }
-
-        }
+    }
 
 #end
