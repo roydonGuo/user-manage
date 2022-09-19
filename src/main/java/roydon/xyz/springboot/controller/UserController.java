@@ -7,7 +7,6 @@ import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +39,10 @@ public class UserController {
     @Resource
     private IUserService userService;
 
+    /**
+     * @param userDTO
+     * @return
+     */
     @PostMapping("/login")
     public Result login(@RequestBody UserDTO userDTO) {
         if (StrUtil.isBlank(userDTO.getUsername()) || StrUtil.isBlank(userDTO.getPassword())) {
@@ -54,43 +57,57 @@ public class UserController {
         return Result.success(userService.register(userDTO));
     }
 
-    // 新增或者更新
+    /**
+     * 新增或者更新
+     *
+     * @param user
+     * @return
+     */
     @PostMapping
-    public boolean save(@RequestBody User user) {
-        return userService.saveOrUpdate(user);
+    public Result save(@RequestBody User user) {
+        return Result.success(userService.saveOrUpdate(user));
+    }
+
+    @GetMapping("/username/{username}")
+    public Result userInfo(@PathVariable String username) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        return Result.success(userService.getOne(queryWrapper));
     }
 
     @DeleteMapping("/{id}")
-    public Boolean delete(@PathVariable Integer id) {
-        return userService.removeById(id);
+    public Result delete(@PathVariable Integer id) {
+        return Result.success(userService.removeById(id));
     }
 
     @DeleteMapping("/del/batch")
-    public boolean deleteBatch(@RequestBody List<Integer> ids) {
-        return userService.removeByIds(ids);
+    public Result deleteBatch(@RequestBody List<Integer> ids) {
+        return Result.success(userService.removeByIds(ids));
     }
 
     @GetMapping
-    public List<User> findAll() {
-        return userService.list();
+    public Result findAll() {
+        return Result.success(userService.list());
     }
 
     @GetMapping("/{id}")
-    public User findOne(@PathVariable Integer id) {
-        return userService.getById(id);
+    public Result findOne(@PathVariable Integer id) {
+        return Result.success(userService.getById(id));
     }
 
     @GetMapping("/page")
-    public IPage<User> findPage(@RequestParam Integer pageNum,
-                                @RequestParam Integer pageSize,
-                                @RequestParam(defaultValue = "") String username,
-                                @RequestParam(defaultValue = "") String email,
-                                @RequestParam(defaultValue = "") String address) {
+    public Result findPage(@RequestParam Integer pageNum,
+                           @RequestParam Integer pageSize,
+                           @RequestParam(defaultValue = "") String username,
+                           @RequestParam(defaultValue = "") String email,
+                           @RequestParam(defaultValue = "") String address) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(Strings.isNotEmpty(username), "username", username);// Strings.isNotEmpty(username) 数据库此字段判断是否为空
         queryWrapper.like(Strings.isNotEmpty(email), "email", email);// 相当于拼接了and条件
         queryWrapper.like(Strings.isNotEmpty(address), "address", address);
-        return userService.page(new Page<>(pageNum, pageSize), queryWrapper);
+
+//        System.out.println("当前角色信息=============="+ TokenUtils.getCurrentUser().getNickname());
+        return Result.success(userService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
 
     /**
@@ -140,7 +157,7 @@ public class UserController {
      * @throws Exception
      */
     @PostMapping("/import")
-    public Boolean imp(MultipartFile file) throws Exception {
+    public Result imp(MultipartFile file) throws Exception {
         InputStream inputStream = file.getInputStream();
         ExcelReader reader = ExcelUtil.getReader(inputStream);
         // 方式1：(推荐) 通过 javabean的方式读取Excel内的对象，但是要求表头必须是英文，跟javabean的属性要对应起来
@@ -164,7 +181,7 @@ public class UserController {
         }
 
         userService.saveBatch(users);
-        return true;
+        return Result.success(true);
     }
 
 }
