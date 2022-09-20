@@ -139,6 +139,8 @@ export default {
       expanded: [],
       checked: [],
       roleId: 0,
+      roleFlag: '',
+      menuIds: [],
     }
   },
   created() {
@@ -161,6 +163,9 @@ export default {
         this.total = res.data.total
 
       })
+      this.request.get("/menu/ids").then(res => {
+        this.menuIds = res.data
+      })
 
     },
     reset() {
@@ -181,6 +186,10 @@ export default {
       this.load()
     },
     handleAdd() {
+      // this.request.get("/menu").then(res => {
+      //   this.menuData = res.data
+      //   this.expanded = this.menuData.map(v => v.id)
+      // })
       this.dialogFormVisible = true
       this.form = {}
     },
@@ -200,11 +209,15 @@ export default {
       // console.log(this.$refs.tree.getCheckedKeys())
       this.request.post("/role/roleMenu/" + this.roleId, this.$refs.tree.getCheckedKeys()).then(res => {
         // console.log(res)
-        if(res.code==='200'){
-          this.checked=res.data
+        if (res.code === '200') {
+          this.checked = res.data
           this.$message.success('分配成功')
-          this.menuDialogVisible=false
-        }else {
+          this.menuDialogVisible = false
+          if (this.roleFlag === 'ROLE_ADMIN') {
+            this.$store.commit("logout")
+          }
+
+        } else {
           this.$message.error(res.msg)
         }
 
@@ -254,20 +267,28 @@ export default {
     },
     handleMenu(row) {
       this.roleId = row.id
-      this.menuDialogVisible = true
+      this.roleFlag = row.flag
 
       this.request.get("/menu").then(res => {
         this.menuData = res.data
         // console.log(JSON.stringify(res.data)+"=============")
         this.expanded = this.menuData.map(v => v.id)
       })
-      this.request.get("/role/roleMenu/"+row.id).then(res => {
+      this.request.get("/role/roleMenu/" + this.roleId).then(res => {
         this.checked = res.data
+
+        this.menuIds.forEach(id => {
+          if (!this.checks.includes(id)) {
+            this.$nextTick(()=>{
+              this.$refs.tree.setChecked(id, false)
+            })
+          }
+
+        })
         // console.log(JSON.stringify(res.data)+"=============")
 
       })
-
-
+      this.menuDialogVisible = true
 
     },
 
