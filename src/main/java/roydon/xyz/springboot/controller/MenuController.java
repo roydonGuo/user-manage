@@ -14,7 +14,6 @@ import roydon.xyz.springboot.service.IMenuService;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -49,22 +48,14 @@ public class MenuController {
         return Result.success(menuService.removeByIds(ids));
     }
 
+    @GetMapping("/ids")
+    public Result findAllIds() {
+        return Result.success(menuService.list().stream().map(Menu::getId));
+    }
+
     @GetMapping
     public Result findAll(@RequestParam(defaultValue = "") String name) {
-        QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(Strings.isNotEmpty(name), "name", name);
-        List<Menu> menuList = menuService.list();
-        // 找到pid为null的一级菜单
-        List<Menu> parentMenus = menuList.stream()
-                .filter(menu -> menu.getPid() == null)
-                .collect(Collectors.toList());
-        for (Menu menu : parentMenus) {
-            List<Menu> children = menuList.stream()
-                    .filter(m -> menu.getId().equals(m.getPid()))
-                    .collect(Collectors.toList());
-            menu.setChildren(children);
-        }
-        return Result.success(parentMenus);
+        return Result.success(menuService.findMenus(name));
     }
 
     @GetMapping("/{id}")
