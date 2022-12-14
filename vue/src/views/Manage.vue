@@ -34,7 +34,6 @@ export default {
       sideWidth: 200,
       logoTextShow: true,
       user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
-
     }
   },
   created() {
