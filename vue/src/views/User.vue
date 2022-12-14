@@ -145,7 +145,6 @@ export default {
         console.log(res)
         this.tableData = res.data.records
         this.total = res.data.total
-
       })
 
       this.request.get("/role").then(res=>{

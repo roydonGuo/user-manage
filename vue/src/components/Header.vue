@@ -62,7 +62,6 @@ export default {
       console.log(newVal)
     }
   },
-
 }
 </script>
 

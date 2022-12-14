@@ -49,8 +49,6 @@ export default {
   methods: {
     async getUser() {
       this.form = (await this.request.get('/user/username/' + this.user.username)).data
-
-
     },
     save() {
       this.request.post("/user", this.form).then(res => {
