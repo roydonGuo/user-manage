@@ -3,11 +3,11 @@
 
     <div style="margin: 0 0 10px;display: inline-block">
       <el-input style="width: 200px" placeholder="请输入角色名" suffix-icon="el-icon-search" class="mr-5"
-                v-model="name"></el-input>
+        v-model="name"></el-input>
       <el-input style="width: 200px" placeholder="请输入描述" suffix-icon="el-icon-message" class="mr-5"
-                v-model="description"></el-input>
+        v-model="description"></el-input>
       <el-input style="width: 200px" placeholder="请输入flag" suffix-icon="el-icon-position" class="mr-5"
-                v-model="flag"></el-input>
+        v-model="flag"></el-input>
       <el-button type="primary" @click="load">搜索</el-button>
       <el-button type="warning" @click="reset">重置</el-button>
     </div>
@@ -15,46 +15,30 @@
     <div style="margin: 0 0 10px;display: inline-block;float: right">
       <el-button type="primary" class="mr-5" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i>
       </el-button>
-      <el-popconfirm
-          class="mr-5"
-          confirm-button-text='确定'
-          cancel-button-text='我再想想'
-          icon="el-icon-info"
-          icon-color="red"
-          title="您确定批量删除这些数据吗？"
-          @confirm="delBatch"
-      >
+      <el-popconfirm class="mr-5" confirm-button-text='确定' cancel-button-text='我再想想' icon="el-icon-info" icon-color="red"
+        title="您确定批量删除这些数据吗？" @confirm="delBatch">
         <el-button type="danger" slot="reference">批量删除 <i class="el-icon-remove-outline"></i></el-button>
       </el-popconfirm>
       <el-upload class="mr-5" action="http://localhost:9090/role/import" :show-file-list="false" accept="xlsx"
-                 :on-success="handleExcelImportSuccess" style="display: inline-block">
+        :on-success="handleExcelImportSuccess" style="display: inline-block">
         <el-button type="primary" class="ml-5">导入 <i class="el-icon-bottom"></i></el-button>
       </el-upload>
       <el-button type="primary" @click="exp">导出 <i class="el-icon-top"></i></el-button>
     </div>
 
     <el-table :data="tableData" border stripe :header-cell-class-name="headerBg"
-              @selection-change="handleSelectionChange">
+      @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40"></el-table-column>
       <el-table-column prop="id" label="ID" width="80"></el-table-column>
       <el-table-column prop="name" label="角色"></el-table-column>
       <el-table-column prop="description" label="描述"></el-table-column>
       <el-table-column prop="flag" label="flag"></el-table-column>
-
       <el-table-column label="操作" width="300" align="center">
-
         <template slot-scope="scope">
           <el-button type="info" @click="handleMenu(scope.row)">分配菜单 <i class="el-icon-menu"></i></el-button>
           <el-button type="success" @click="handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
-          <el-popconfirm
-              class="ml-5"
-              confirm-button-text='确定'
-              cancel-button-text='我再想想'
-              icon="el-icon-info"
-              icon-color="red"
-              title="您确定删除吗？"
-              @confirm="delRow(scope.row.id)"
-          >
+          <el-popconfirm class="ml-5" confirm-button-text='确定' cancel-button-text='我再想想' icon="el-icon-info"
+            icon-color="red" title="您确定删除吗？" @confirm="delRow(scope.row.id)">
             <el-button type="danger" slot="reference">删除 <i class="el-icon-remove-outline"></i>
             </el-button>
           </el-popconfirm>
@@ -62,14 +46,8 @@
       </el-table-column>
     </el-table>
     <div style="padding: 10px 0">
-      <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="pageNum"
-          :page-sizes="[5, 10, 20]"
-          :page-size="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNum"
+        :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
     <el-dialog title="角色信息" :visible.sync="dialogFormVisible" width="30%">
@@ -91,15 +69,8 @@
       </div>
     </el-dialog>
     <el-dialog title="分配菜单" :visible.sync="menuDialogVisible" width="30%">
-      <el-tree
-          :props="props"
-          :data="menuData"
-          show-checkbox
-          node-key="id"
-          ref="tree"
-          :default-expanded-keys="expanded"
-          :default-checked-keys="checked"
-      >
+      <el-tree :props="props" :data="menuData" show-checkbox node-key="id" ref="tree" :default-expanded-keys="expanded"
+        :default-checked-keys="checked">
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <span><i :class="data.icon"></i>{{ data.name }}</span>
         </span>
@@ -224,7 +195,7 @@ export default {
       })
     },
     handleEdit(row) {
-      this.form = {...row}
+      this.form = { ...row }
       this.dialogFormVisible = true
     },
     delRow(id) {
@@ -268,7 +239,6 @@ export default {
     handleMenu(row) {
       this.roleId = row.id
       this.roleFlag = row.flag
-
       this.request.get("/menu").then(res => {
         this.menuData = res.data
         // console.log(JSON.stringify(res.data)+"=============")
@@ -276,17 +246,14 @@ export default {
       })
       this.request.get("/role/roleMenu/" + this.roleId).then(res => {
         this.checked = res.data
-
         this.menuIds.forEach(id => {
           if (!this.checks.includes(id)) {
-            this.$nextTick(()=>{
+            this.$nextTick(() => {
               this.$refs.tree.setChecked(id, false)
             })
           }
-
         })
         // console.log(JSON.stringify(res.data)+"=============")
-
       })
       this.menuDialogVisible = true
 

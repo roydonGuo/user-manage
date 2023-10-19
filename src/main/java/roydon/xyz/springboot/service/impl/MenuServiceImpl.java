@@ -1,5 +1,6 @@
 package roydon.xyz.springboot.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.logging.log4j.util.Strings;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author roydon
@@ -22,11 +23,11 @@ import java.util.stream.Collectors;
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
 
-
     @Override
     public List<Menu> findMenus(String name) {
-        QueryWrapper<Menu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(Strings.isNotEmpty(name), "name", name);
+        LambdaQueryWrapper<Menu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(Strings.isNotEmpty(name), Menu::getName, name);
+        queryWrapper.orderByAsc(Menu::getSortNum);
         List<Menu> menuList = list(queryWrapper);
         // 找到pid为null的一级菜单
         List<Menu> parentMenus = menuList.stream()

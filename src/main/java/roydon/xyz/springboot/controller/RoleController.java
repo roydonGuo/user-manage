@@ -70,7 +70,6 @@ public class RoleController {
      * 绑定角色与菜单的关系
      * @param roleId 角色id
      * @param menuIds 菜单id数组
-     * @return
      */
     @PostMapping("/roleMenu/{roleId}")
     public Result saveIcon(@PathVariable Integer roleId,

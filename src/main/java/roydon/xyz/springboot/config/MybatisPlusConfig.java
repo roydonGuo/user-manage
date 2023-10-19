@@ -17,7 +17,9 @@ import org.springframework.context.annotation.Configuration;
 @MapperScan("roydon.xyz.springboot.mapper")
 public class MybatisPlusConfig {
 
-    // 最新版
+    /**
+     * 分页插件
+     */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();

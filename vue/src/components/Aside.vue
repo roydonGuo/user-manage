@@ -76,7 +76,7 @@ export default {
   data() {
     return {
       menus: localStorage.getItem("menus") ? JSON.parse(localStorage.getItem("menus")) : [],
-      opens:localStorage.getItem("menus") ? JSON.parse(localStorage.getItem("menus")).map(v =>v.id+'') : [],
+      opens: localStorage.getItem("menus") ? JSON.parse(localStorage.getItem("menus")).map(v => v.id + '') : [],
     }
   },
   methods: {

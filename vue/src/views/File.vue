@@ -6,28 +6,34 @@
       <el-button type="warning" @click="reset">重置</el-button>
     </div>
     <div style="margin: 0 0 10px;display: inline-block;float: right">
-      <el-upload action="http://localhost:9090/file/upload" :show-file-list="false"
-                 :on-success="handleFileUploadSuccess" style="display: inline-block">
+      <el-upload action="http://localhost:9090/file/upload" :show-file-list="false" :on-success="handleFileUploadSuccess"
+        style="display: inline-block">
         <el-button type="primary" class="ml-5">上传文件 <i class="el-icon-top"></i></el-button>
       </el-upload>
-      <el-popconfirm
-          class="ml-5"
-          confirm-button-text='确定'
-          cancel-button-text='我再想想'
-          icon="el-icon-info"
-          icon-color="red"
-          title="您确定批量删除这些数据吗？"
-          @confirm="delBatch"
-      >
+      <el-popconfirm class="ml-5" confirm-button-text='确定' cancel-button-text='我再想想' icon="el-icon-info" icon-color="red"
+        title="您确定批量删除这些数据吗？" @confirm="delBatch">
         <el-button type="danger" slot="reference">批量删除 <i class="el-icon-remove-outline"></i></el-button>
       </el-popconfirm>
 
     </div>
     <el-table :data="tableData" border stripe :header-cell-class-name="'headerBg'"
-              @selection-change="handleSelectionChange">
+      @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="id" label="ID" width="80"></el-table-column>
       <el-table-column prop="name" label="文件名称"></el-table-column>
+      <el-table-column label="图片" align="center" prop="url" width="160">
+        <template slot-scope="scope">
+          <!-- <image-preview :src="scope.row.url" :width="80" :height="120" /> -->
+          <el-image style="height: 80px;border-radius: 8px;" lazy :src="scope.row.url" :fit="contain">
+            <div slot="placeholder" class="image-slot">
+              <i class="el-icon-loading"></i>加载中...
+            </div>
+            <div slot="error" class="image-slot">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </el-image>
+        </template>
+      </el-table-column>
       <el-table-column prop="type" label="文件类型"></el-table-column>
       <el-table-column prop="size" label="文件大小(kb)"></el-table-column>
       <el-table-column label="下载">
@@ -38,34 +44,21 @@
       <el-table-column label="启用">
         <template slot-scope="scope">
           <el-switch v-model="scope.row.enable" active-color="#13ce66" inactive-color="#ccc"
-                     @change="changeEnable(scope.row)"></el-switch>
+            @change="changeEnable(scope.row)"></el-switch>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <el-popconfirm
-              class="ml-5"
-              confirm-button-text='确定'
-              cancel-button-text='我再想想'
-              icon="el-icon-info"
-              icon-color="red"
-              title="您确定删除吗？"
-              @confirm="del(scope.row.id)"
-          >
+          <el-popconfirm class="ml-5" confirm-button-text='确定' cancel-button-text='我再想想' icon="el-icon-info"
+            icon-color="red" title="您确定删除吗？" @confirm="del(scope.row.id)">
             <el-button type="danger" slot="reference">删除 <i class="el-icon-remove-outline"></i></el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
     <div style="padding: 10px 0">
-      <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="pageNum"
-          :page-sizes="[5, 10, 20]"
-          :page-size="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNum"
+        :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
   </div>
@@ -81,7 +74,8 @@ export default {
       multipleSelection: [],
       pageNum: 1,
       pageSize: 10,
-      total: 0
+      total: 0,
+      contain: 'contain'
     }
   },
   created() {
@@ -159,6 +153,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

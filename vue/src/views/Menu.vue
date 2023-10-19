@@ -3,7 +3,7 @@
 
     <div style="margin: 0 0 10px;display: inline-block">
       <el-input style="width: 200px" placeholder="请输入名称" suffix-icon="el-icon-search" class="mr-5"
-                v-model="name"></el-input>
+        v-model="name"></el-input>
       <el-button type="primary" @click="load">搜索</el-button>
       <el-button type="warning" @click="reset">重置</el-button>
     </div>
@@ -11,28 +11,19 @@
     <div style="margin: 0 0 10px;display: inline-block;float: right">
       <el-button type="primary" class="mr-5" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i>
       </el-button>
-      <el-popconfirm
-          class="mr-5"
-          confirm-button-text='确定'
-          cancel-button-text='我再想想'
-          icon="el-icon-info"
-          icon-color="red"
-          title="您确定批量删除这些数据吗？"
-          @confirm="delBatch"
-      >
+      <el-popconfirm class="mr-5" confirm-button-text='确定' cancel-button-text='我再想想' icon="el-icon-info" icon-color="red"
+        title="您确定批量删除这些数据吗？" @confirm="delBatch">
         <el-button type="danger" slot="reference">批量删除 <i class="el-icon-remove-outline"></i></el-button>
       </el-popconfirm>
       <el-upload class="mr-5" action="http://localhost:9090/menu/import" :show-file-list="false" accept="xlsx"
-                 :on-success="handleExcelImportSuccess" style="display: inline-block">
+        :on-success="handleExcelImportSuccess" style="display: inline-block">
         <el-button type="primary" class="ml-5">导入 <i class="el-icon-bottom"></i></el-button>
       </el-upload>
       <el-button type="primary" @click="exp">导出 <i class="el-icon-top"></i></el-button>
     </div>
 
-    <el-table :data="tableData" border stripe :header-cell-class-name="headerBg"
-              row-key="id"
-              default-expand-all
-              @selection-change="handleSelectionChange">
+    <el-table :data="tableData" border stripe :header-cell-class-name="headerBg" row-key="id" default-expand-all
+      @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="40"></el-table-column>
       <el-table-column prop="id" label="ID"></el-table-column>
       <el-table-column prop="name" label="名称"></el-table-column>
@@ -46,22 +37,13 @@
       <el-table-column prop="pid" label="pid"></el-table-column>
       <el-table-column prop="pagePath" label="路径"></el-table-column>
       <el-table-column prop="sortNum" label="sort_num"></el-table-column>
-
       <el-table-column label="操作" width="300" align="center">
-
         <template slot-scope="scope">
           <el-button type="primary" v-if="!scope.row.pid && !scope.row.path" @click="handleAddChildren(scope.row.id)">
             新增子菜单 <i class="el-icon-edit"></i></el-button>
           <el-button type="success" @click="handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
-          <el-popconfirm
-              class="ml-5"
-              confirm-button-text='确定'
-              cancel-button-text='我再想想'
-              icon="el-icon-info"
-              icon-color="red"
-              title="您确定删除吗？"
-              @confirm="delRow(scope.row.id)"
-          >
+          <el-popconfirm class="ml-5" confirm-button-text='确定' cancel-button-text='我再想想' icon="el-icon-info"
+            icon-color="red" title="您确定删除吗？" @confirm="delRow(scope.row.id)">
             <el-button type="danger" slot="reference">删除 <i class="el-icon-remove-outline"></i>
             </el-button>
           </el-popconfirm>
@@ -90,10 +72,7 @@
         <el-form-item label="icon">
           <template slot-scope="scope">
             <el-select clearable v-model="form.icon" placeholder="请选择图标" style="width: 100%">
-              <el-option v-for="item in options"
-                         :key="item.name"
-                         :label="item.name"
-                         :value="item.value">
+              <el-option v-for="item in options" :key="item.name" :label="item.name" :value="item.value">
                 <i :class="item.value">{{ item.name }}</i>
               </el-option>
             </el-select>
@@ -201,7 +180,7 @@ export default {
       })
     },
     handleEdit(row) {
-      this.form = {...row}
+      this.form = { ...row }
       this.dialogFormVisible = true
       this.request.get("/menu/icons").then(res => {
         this.options = res.data
