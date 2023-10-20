@@ -24,4 +24,4 @@ mybatis-plus:
 files:
   upload:
     #    path: /home/files/
-    path: D:/JetBrains/JavaProjects/user-manage/
+    path: D:/home/user-manage/files
