@@ -1,36 +1,35 @@
 <template>
   <div>
     <el-row :gutter="10" style="margin-bottom: 30px;font-size: 16px">
-      <el-col :span="6" >
+      <el-col :span="6">
         <el-card>
           <div style="color: pink"><i class="el-icon-user-solid"></i>用户总数</div>
           <div style="padding: 10px 0;text-align: center;font-weight: 600">
             <el-tag type="primary" style="">100</el-tag>
           </div>
         </el-card>
-
       </el-col>
       <el-col :span="6">
         <el-card>
-          <div style="color: pink">用户总数</div>
+          <div style="color: pink">总访问量</div>
           <div style="padding: 10px 0;text-align: center;font-weight: 600">
-            <el-tag type="primary" style="">100</el-tag>
+            <el-tag type="primary" style="">500</el-tag>
           </div>
         </el-card>
       </el-col>
       <el-col :span="6">
         <el-card>
-          <div style="color: pink">用户总数</div>
+          <div style="color: pink">订单总数</div>
           <div style="padding: 10px 0;text-align: center;font-weight: 600">
-            <el-tag type="primary" style="">100</el-tag>
+            <el-tag type="primary" style="">1000</el-tag>
           </div>
         </el-card>
       </el-col>
       <el-col :span="6">
         <el-card>
-          <div style="color: pink">用户总数</div>
+          <div style="color: pink">总营业额</div>
           <div style="padding: 10px 0;text-align: center;font-weight: 600">
-            <el-tag type="primary" style="">100</el-tag>
+            <el-tag type="danger" style="">100000</el-tag>
           </div>
         </el-card>
       </el-col>
@@ -43,9 +42,17 @@
         <div id="pie" style="width: 500px; height: 400px"></div>
       </el-col>
     </el-row>
-
-    <el-calendar v-model="value">
-    </el-calendar>
+    <el-row :gutter="10" style="margin-bottom: 30px;font-size: 16px">
+      <!--    日历-->
+      <el-col :span="12">
+        <el-calendar v-model="value">
+        </el-calendar>
+      </el-col>
+      <el-col :span="12">
+        <el-calendar v-model="value">
+        </el-calendar>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
