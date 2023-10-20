@@ -88,5 +88,7 @@ export default {
 </script>
 
 <style scoped>
-
+.el-menu {
+  overflow: hidden;
+}
 </style>
