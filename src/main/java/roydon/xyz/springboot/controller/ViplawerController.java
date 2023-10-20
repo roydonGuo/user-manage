@@ -57,16 +57,20 @@ public class ViplawerController {
             ViplawerVO viplawerVO = BeanUtil.copyProperties(record, ViplawerVO.class);
             // 查询技能
             List<ViplawerSkill> viplawerSkills = lawerSkillService.getLawerSkill(record.getId());
-            List<String> nameList = viplawerSkills.stream().map(ViplawerSkill::getName).collect(Collectors.toList());
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < nameList.size(); i++) {
-                if (i == nameList.size() - 1) {
-                    sb.append(nameList.get(i));
-                } else {
-                    sb.append(nameList.get(i) + "，");
+            if (viplawerSkills == null) {
+                viplawerVO.setSkills(null);
+            } else {
+                List<String> nameList = viplawerSkills.stream().map(ViplawerSkill::getName).collect(Collectors.toList());
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < nameList.size(); i++) {
+                    if (i == nameList.size() - 1) {
+                        sb.append(nameList.get(i));
+                    } else {
+                        sb.append(nameList.get(i) + "，");
+                    }
                 }
+                viplawerVO.setSkills(sb.toString());
             }
-            viplawerVO.setSkills(sb.toString());
             voList.add(viplawerVO);
         }
         Page<ViplawerVO> voPage = new Page<>();

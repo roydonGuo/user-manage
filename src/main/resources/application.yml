@@ -1,22 +1,16 @@
 server:
   port: 9090
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/user-manage?serverTimezone=GMT%2b8
-    username: root
-    password: qwer1234
+    url: jdbc:mysql://106.14.105.101:3306/user-manage?serverTimezone=GMT%2b8
+    username: roydon
+    password: roydon#Mysql
   servlet:
     multipart:
       max-file-size: 20MB # 默认1MB
       enabled: true
       max-request-size: 200MB
-
-#mybatis:
-#  mapper-locations: classpath:mapper/*.xml  #????mybatis?xml??
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -24,4 +18,4 @@ mybatis-plus:
 files:
   upload:
     #    path: /home/files/
-    path: D:/home/user-manage/files
+    path: D:/home/userManage/
