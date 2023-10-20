@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "NotFound"
+  name: "Dashbord"
 }
 </script>
 
