@@ -90,9 +90,8 @@ export default {
     return {
       props: {
         label: 'name',
-
       },
-      menuData: '',
+      menuData: [],
       value: true,
       tableData: [],
       pageNum: 1,
@@ -132,12 +131,10 @@ export default {
         // console.log(res)
         this.tableData = res.data.records
         this.total = res.data.total
-
       })
       this.request.get("/menu/ids").then(res => {
         this.menuIds = res.data
       })
-
     },
     reset() {
       this.name = ''
@@ -187,11 +184,9 @@ export default {
           if (this.roleFlag === 'ROLE_ADMIN') {
             this.$store.commit("logout")
           }
-
         } else {
           this.$message.error(res.msg)
         }
-
       })
     },
     handleEdit(row) {
@@ -241,19 +236,20 @@ export default {
       this.roleFlag = row.flag
       this.request.get("/menu").then(res => {
         this.menuData = res.data
-        // console.log(JSON.stringify(res.data)+"=============")
         this.expanded = this.menuData.map(v => v.id)
       })
       this.request.get("/role/roleMenu/" + this.roleId).then(res => {
         this.checked = res.data
-        this.menuIds.forEach(id => {
-          if (!this.checks.includes(id)) {
-            this.$nextTick(() => {
-              this.$refs.tree.setChecked(id, false)
-            })
-          }
+        // this.menuIds.forEach(id => {
+        //   if (!this.checks.includes(id)) {
+        //     this.$nextTick(() => {
+        //       this.$refs.tree.setChecked(id, false)
+        //     })
+        //   }
+        // })
+        this.$nextTick(() => {
+          this.$refs.tree.setCheckedKeys(this.checked);
         })
-        // console.log(JSON.stringify(res.data)+"=============")
       })
       this.menuDialogVisible = true
 

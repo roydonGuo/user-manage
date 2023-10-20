@@ -46,20 +46,11 @@ public class ViplawerServiceImpl extends ServiceImpl<ViplawerMapper, Viplawer> i
         queryWrapper.eq(LawerSkill::getLawerId, id);
         lawerSkillService.remove(queryWrapper);
         // 批量插入
-//        for (Integer menuId : skillIds) {
-//            Menu menu = menuService.getById(menuId);
-//            List<Integer> menuCopy = CollUtil.newArrayList(menuIds);
-//            if (menu.getPid() != null && !menuCopy.contains(menu.getPid())) { // 二级菜单
-//                RoleMenu roleMenu = new RoleMenu();
-//                roleMenu.setRoleId(roleId);
-//                roleMenu.setMenuId(menu.getPid());
-//                roleMenuMapper.insert(roleMenu);
-//                menuCopy.add(menu.getPid());
-//            }
-//            RoleMenu roleMenu = new RoleMenu();
-//            roleMenu.setRoleId(roleId);
-//            roleMenu.setMenuId(menuId);
-//            roleMenuMapper.insert(roleMenu);
-//        }
+        for (Integer skill : skillIds) {
+            LawerSkill lawerSkill = new LawerSkill();
+            lawerSkill.setLawerId(id);
+            lawerSkill.setSkillId(skill);
+            lawerSkillService.save(lawerSkill);
+        }
     }
 }

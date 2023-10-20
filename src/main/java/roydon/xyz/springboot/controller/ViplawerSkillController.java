@@ -26,14 +26,11 @@ public class ViplawerSkillController {
     private IViplawerSkillService viplawerSkillService;
 
     /**
-     * 分页查询
+     * 集合树
      */
     @GetMapping("/list")
     public Result queryList(@RequestParam(defaultValue = "") String name) {
         return Result.success(viplawerSkillService.findPageTree(name));
-//        LambdaQueryWrapper<ViplawerSkill> queryWrapper = new LambdaQueryWrapper<>();
-//        queryWrapper.like(Strings.isNotEmpty(name), ViplawerSkill::getName, name);
-//        return Result.success(viplawerSkillService.page(new Page<>(pageNum, pageSize), queryWrapper));
     }
 
     @PostMapping()

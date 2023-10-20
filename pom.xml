@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>roydon.xyz</groupId>
-    <artifactId>springboot</artifactId>
+    <artifactId>user-manage</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>springboot</name>
-    <description>springboot</description>
+    <name>user-manage</name>
+    <description>RBAC用户管理后台系统</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
